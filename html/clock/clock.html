@@ -1,0 +1,33 @@
+<html>
+<!-- 钟表 -->
+<head>
+    <title>Image Clock</title>
+
+    <style>
+        body {
+            background: #dddddd;
+        }
+
+        #canvas {
+            display: none;
+        }
+
+        #snapshotImageElement {
+            position: absolute;
+            left: 10px;
+            margin: 20px;
+            border: thin solid #aaaaaa;
+        }
+    </style>
+</head>
+
+<body>
+<img id='snapshotImageElement'/>
+
+<canvas id='canvas' width='400' height='400'>
+    Canvas not supported
+</canvas>
+
+<script src='clock.js'></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<body>
+<!-- 渐变 -->
+<canvas id="myCanvas" width="300" height="150" style="border:1px solid #d3d3d3;">
+    Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script>
+
+    var canvas=document.getElementById("myCanvas");
+    canvas.width = 1000;
+    canvas.height = 600;
+    // canvas.bgcolor="#FF0000";
+    var radius = 20;
+    var ctx=canvas.getContext("2d");
+    var x,y;
+    x = 150;
+    y = 150;
+    function draw() {
+        if(Math.abs(clickX-x) < 5){
+            x += (Math.random()*20-10)>>0;
+            if(x>1000){
+                x = 1000;
+            }
+            if(x<0){
+                x = 40;
+            }
+            clickX = x;
+            radius = 20;
+        }else{
+            x = Number.parseInt(x/5)*5;
+            x += (clickX>x?5:-5);
+            radius = 10;
+        }
+        if(Math.abs(clickY-y)<5){
+            y += (Math.random()*20-10)>>0;
+            if(y>600){
+                y=600;
+            }
+            if(y<0){
+                y=40;
+            }
+            clientY = y;
+            radius = 20;
+        }else{
+            y = Number.parseInt(y/5)*5;
+            y += (clickY>y?5:-5);
+            radius = 5;
+        }
+
+        var grd=ctx.createRadialGradient(x,y,radius ,x+10,y+20,radius*8);
+        grd.addColorStop(0,"#eeeee4");
+        grd.addColorStop(0.5,"#81a7ec");
+        grd.addColorStop(0.7,"#8cd3ec");
+        grd.addColorStop(1,"#333333");
+        ctx.fillStyle=grd;
+        ctx.fillRect(0,0,1000,600);
+        window.requestAnimationFrame(draw);
+    }
+    canvas.addEventListener("mousedown",doMouseDown)
+    draw();
+
+    var clickX = 150;
+    var clickY = 150;
+
+    function doMouseDown(event) {
+
+        console.log('down');
+        clickX = event.clientX;
+        clickY = event.clientY;
+    }
+
+</script>
+
+</body>
+</html>
