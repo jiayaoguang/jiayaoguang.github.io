@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>反像</title>
+</head>
+
+
+<body>
+
+<div style="display: none;">
+<img  id="img" src="../../images/bg.jpg" />
+</div>
+<canvas id='canvas' width='800' height='520'>
+    Canvas not supported
+</canvas>
+
+<script type="text/javascript">
+    var image = new Image()
+    var canvas = document.getElementById("canvas");
+    var img = document.getElementById("img");
+    image.src = "../../images/bg.jpg";
+    var context = canvas.getContext("2d");
+    // var i = img.data.length;
+    window.onload = function(){
+        context.drawImage(image,0,0,800,600);
+        var imagedata = context.getImageData(0, 0, canvas.width, canvas.height),
+            data = imagedata.data;
+        for(i=0; i <= data.length - 4; i+=4) {
+            data[i]   = 255 - data[i];
+            data[i+1] = 255 - data[i+1];
+            data[i+2] = 255 - data[i+2];
+            // data[i+3] = 80;
+        }
+        context.putImageData(imagedata, 0, 0);
+    };
+    // context.drawImage(img,0,0,100,100);
+</script>
+
+</body>
+</html>

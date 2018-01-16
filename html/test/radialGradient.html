@@ -58,13 +58,13 @@
         ctx.fillRect(0,0,1000,600);
         window.requestAnimationFrame(draw);
     }
-    canvas.addEventListener("mousedown",doMouseDown)
+    canvas.addEventListener("mousemove",doMouseMove)
     draw();
 
     var clickX = 150;
     var clickY = 150;
 
-    function doMouseDown(event) {
+    function doMouseMove(event) {
 
         console.log('down');
         clickX = event.clientX;

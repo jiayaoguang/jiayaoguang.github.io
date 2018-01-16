@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Scrolling Backgrounds</title>
+
+    <style>
+        body {
+            background: #dddddd;
+        }
+
+        #canvas {
+            position: absolute;
+            top: 30px;
+            left: 10px;
+            background: #ffffff;
+            cursor: crosshair;
+            margin-left: 10px;
+            margin-top: 10px;
+            -webkit-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            -moz-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+        }
+
+        input {
+            margin-left: 15px;
+        }
+
+    </style>
+</head>
+
+<body>
+<canvas id='canvas' width='1000' height='450'>
+    Canvas not supported
+</canvas>
+
+<input id='animateButton' type='button' value='Animate'/>
+
+<script type="text/javascript">
+    grassOffset = 0,
+        treeOffset = 0,
+        nearTreeOffset = 0,
+
+        TREE_VELOCITY = 20,
+        FAST_TREE_VELOCITY = 40,
+        SKY_VELOCITY = 8,
+        GRASS_VELOCITY = 75;
+    var canvas = document.getElementById('canvas'),
+        context = canvas.getContext('2d'),
+        controls = document.getElementById('controls'),
+        animateButton = document.getElementById('animateButton'),
+        sky = new Image(),
+        grass = new Image();
+        var farTree = new Image();
+        var nearTree = new Image();
+        paused = true,
+        lastTime = 0,
+        fps = 0,
+
+        skyOffset = 0,
+        SKY_VELOCITY = 30; // 30 pixels/second
+
+    // Functions.....................................................
+
+    function erase() {
+        context.clearRect(0,0,canvas.width,canvas.height);
+    }
+
+    function draw() {
+        context.save();
+
+        skyOffset = skyOffset < canvas.width ?
+            skyOffset + SKY_VELOCITY/fps : 0;
+
+        grassOffset = grassOffset < canvas.width ?
+            grassOffset +  GRASS_VELOCITY/fps : 0;
+
+        treeOffset = treeOffset < canvas.width ?
+            treeOffset + TREE_VELOCITY/fps : 0;
+
+        nearTreeOffset = nearTreeOffset < canvas.width ?
+            nearTreeOffset + FAST_TREE_VELOCITY/fps : 0;
+
+        context.save();
+        context.translate(-skyOffset, 0);
+        context.drawImage(sky, 0, 0);
+        context.drawImage(sky, sky.width-2, 0);
+        context.restore();
+
+        context.save();
+        context.translate(-treeOffset, 0);
+        context.drawImage(farTree, 100, 240);
+        context.drawImage(farTree, 1100, 240);
+        context.drawImage(farTree, 400, 240);
+        context.drawImage(farTree, 1400, 240);
+        context.drawImage(farTree, 700, 240);
+        context.drawImage(farTree, 1700, 240);
+        context.restore();
+
+        context.save();
+        context.translate(-nearTreeOffset, 0);
+        context.drawImage(nearTree, 250, 220);
+        context.drawImage(nearTree, 1250, 220);
+        context.drawImage(nearTree, 800, 220);
+        context.drawImage(nearTree, 1800, 220);
+        context.restore();
+
+        context.save();
+        context.translate(-grassOffset, 0);
+
+        context.drawImage(grass, 0, canvas.height-grass.height);
+
+        // context.drawImage(farTree, canvas.height-grass.height,
+        //     canvas.width-300);
+
+        // context.drawImage(grass2, 0, canvas.height-grass2.height);
+        //
+        context.drawImage(grass, grass.width,
+            canvas.height-grass.height);
+        context.restore();
+    }
+
+    function calculateFps(now) {
+        var fps = 1000 / (now - lastTime);
+        lastTime = now;
+        return fps;
+    }
+
+    function animate(now) {
+        if (now === undefined) {
+            now = +new Date;
+        }
+
+        fps = calculateFps(now);
+
+        if (!paused) {
+            erase();
+            draw();
+        }
+
+        window.requestAnimationFrame(animate);
+    }
+
+    // Event handlers................................................
+
+    animateButton.onclick = function (e) {
+        paused = paused ? false : true;
+        if (paused) {
+            animateButton.value = 'Animate';
+        }
+        else {
+            animateButton.value = 'Pause';
+        }
+    };
+
+    // Initialization................................................
+
+    canvas.width = canvas.width;
+    canvas.height = canvas.height;
+
+    sky.src = '../../images/sky.png';
+    farTree.src = '../../images/smalltree.png';
+    nearTree.src = '../../images/tree.png';
+    grass.src = '../../images/grass.png';
+    sky.onload = function (e) {
+        draw();
+    };
+
+    window.requestAnimationFrame(animate);
+</script>
+</body>
+</html>
