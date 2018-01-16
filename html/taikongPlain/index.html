@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Scrolling Backgrounds</title>
+
+    <style>
+        body {
+            background: #dddddd;
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background: #ffffff;
+            cursor: crosshair;
+            margin-left: 0px;
+            margin-top: 0px;
+            -webkit-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            -moz-box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div style="position:relative;width:500px;margin:0 auto;">
+<canvas id='canvas' width='200' height='800'>
+    Canvas not supported
+</canvas>
+</div>
+<script type="text/javascript">
+
+    var  SKY_VELOCITY = 8;
+    var canvas = document.getElementById('canvas'),
+        context = canvas.getContext('2d'),
+        sky = new Image();
+    canvas.addEventListener("mousedown",domousedown);
+    var bgcanvas = document.createElement("canvas");
+    var bgcontext = canvas.getContext('2d');
+    bgcontext.fillStyle="#bfbe43";
+    bgcontext.strokeStyle="#bfbe43";
+    bgcontext.lineWidth=20;
+    spaceShip = new Image();
+    var shipX = 200;
+    var shipY = 400;
+
+
+    context.fillStyle="#bfbe43";
+    context.strokeStyle="#bfbe43";
+    context.lineWidth = 8;
+    var bullets = new Array();
+
+
+    var mouseInX = shipX;
+    var mouseInY = shipY;
+
+    paused = false,
+        lastTime = 0,
+        fps = 0,
+
+        skyOffset = 0,
+        SKY_VELOCITY = 30; // 30 pixels/second
+
+    // Functions.....................................................
+
+    function  domousedown(event) {
+        mouseInX = event.offsetX;
+        mouseInY = event.offsetY;
+    }
+
+    function erase() {
+        // context.clearRect(0,0,canvas.width,canvas.height);
+        context.rect(0,0,canvas.width,canvas.height)
+        context.fill();
+    }
+    var t = 0;
+    var inc = 0;
+    function draw() {
+        //erase();
+        skyOffset = skyOffset > sky.height ?
+              0:skyOffset + SKY_VELOCITY/fps;
+        // context.save();
+        // context.translate(0,skyOffset);
+        // context.drawImage(sky, 0, 0);
+        // context.drawImage(sky, sky.width-2, 0);
+        // context.restore();
+
+        bgcontext.save();
+        t = skyOffset*2 - sky.height;
+        if(t<0){
+            bgcontext.drawImage(sky, 0, (0 - skyOffset)*2 ,sky.width,(sky.height));
+        }else{
+            bgcontext.drawImage(sky, 0, (sky.height*2 - skyOffset*2) ,sky.width,(sky.height));
+        }
+        bgcontext.drawImage(sky, 0, (sky.height - skyOffset*2),sky.width,(sky.height));
+        if(t>0){
+            bgcontext.drawImage(sky, 0, 0,sky.width,(sky.height - skyOffset)*2);
+        }else{
+            bgcontext.drawImage(sky, 0, (sky.height - skyOffset*2),sky.width,(sky.height));
+        }
+        bgcontext.restore();
+        if(mouseInX > shipX){
+            shipX+=5;
+        }
+        else if(mouseInX < shipX-5 ){
+            shipX-=5;
+        }
+        if(mouseInY > shipY){
+            shipY+=5;
+        }
+        else if(mouseInY < shipY-5 ){
+            shipY-=5;
+        }
+        inc++;
+        if(inc%10===0){
+            for(var i=0;i<bullets.length;i++){
+                var point = bullets[i];
+                point.y-=20;
+            }
+            bullets.push(new Point(shipX,shipY));
+        }
+
+        for(var i=0;i<bullets.length;i++){
+            var point = bullets[i];
+            if(point.y<0){
+                bullets.shift();
+                continue;
+            }
+            bgcontext.lineWidth=10;
+            bgcontext.strokeStyle="#bfbe43";
+            bgcontext.beginPath()
+            bgcontext.moveTo(point.x,point.y);
+            bgcontext.lineTo(point.x,point.y+5)
+            bgcontext.stroke();
+            bgcontext.closePath();
+        }
+
+        bgcontext.drawImage(spaceShip, shipX - spaceShip.width/16, shipY - spaceShip.height/16 ,spaceShip.width/8,(spaceShip.height/8));
+        context.drawImage(bgcanvas,0,0)
+    }
+
+
+    function calculateFps(now) {
+        var fps = 1000 / (now - lastTime);
+        lastTime = now;
+        // console.log(fps>>0);
+        return fps;
+    }
+
+    function animate(now) {
+        if (now === undefined) {
+            now = +new Date;
+        }
+
+        fps = calculateFps(now);
+
+        // erase();
+        draw();
+
+        window.requestAnimationFrame(animate);
+    }
+
+    sky.src = 'images/taikong.png';
+    spaceShip.src="images/space-ship.png";
+    window.onload = function (e) {
+        canvas.width = sky.width;
+        canvas.height = sky.height - 150;
+        bgcanvas.width =canvas.width;
+        bgcanvas.height =canvas.height;
+        draw();
+    };
+    var Point = function (x, y) {
+        this.x = x;
+        this.y = y;
+    };
+    window.requestAnimationFrame(animate);
+</script>
+</body>
+</html>
