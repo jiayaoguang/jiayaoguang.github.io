@@ -162,6 +162,7 @@
 
     function animate(now) {
         if(!sky.complete){
+            window.requestAnimationFrame(animate);
             return;
         }
         if (now === undefined) {
