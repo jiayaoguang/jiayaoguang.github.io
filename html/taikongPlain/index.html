@@ -180,8 +180,8 @@
     sky.src = 'images/taikong.png';
     spaceShip.src="images/space-ship.png";
     window.onload = function (e) {
-        canvas.width = sky.width*2;
-        canvas.height = (window.innerHeight-20>800?800:window.innerHeight-20);
+        canvas.width = sky.width;
+        canvas.height = sky.height-150;
         bgcanvas.width =canvas.width;
         bgcanvas.height =canvas.height;
         console.log(window.height);
