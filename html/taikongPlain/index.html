@@ -161,6 +161,9 @@
     }
 
     function animate(now) {
+        if(!sky.complete){
+            return;
+        }
         if (now === undefined) {
             now = +new Date;
         }
@@ -175,13 +178,12 @@
 
     sky.src = 'images/taikong.png';
     spaceShip.src="images/space-ship.png";
-    context.fillText("loading",100,400,100);
+    context.fillText("loading",100,400,200);
     sky.onload = function (e) {
         canvas.width = sky.width;
         canvas.height = window.innerHeight-10;
         bgcanvas.width =canvas.width;
         bgcanvas.height =canvas.height;
-        console.log(window.height)
         draw();
     };
     var Point = function (x, y) {
