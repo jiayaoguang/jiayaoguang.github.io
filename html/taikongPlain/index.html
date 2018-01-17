@@ -27,10 +27,10 @@
 </head>
 
 <body>
-<div align="center">
-    <canvas id='canvas' width='400' height='800'>
-        Canvas not supported
-    </canvas>
+<div style="position:relative;width:500px;margin:0 auto;">
+<canvas id='canvas' width='400' height='800'>
+    Canvas not supported
+</canvas>
 </div>
 <script type="text/javascript">
 
@@ -89,6 +89,10 @@
     var t = 0;
     var inc = 0;
     function draw() {
+        if(!sky.complete||!spaceShip.complete){
+            setTimeout(draw,1000);
+            return;
+        }
         //erase();
         skyOffset = skyOffset > sky.height ?
               0:skyOffset + SKY_VELOCITY/fps;
@@ -101,15 +105,15 @@
         bgcontext.save();
         t = skyOffset*2 - sky.height;
         if(t<0){
-            bgcontext.drawImage(sky, 0, (0 - skyOffset)*2 ,sky.width,(sky.height));
+            bgcontext.drawImage(sky, 0, (0 - skyOffset)*2 ,sky.width*2,(sky.height));
         }else{
-            bgcontext.drawImage(sky, 0, (sky.height*2 - skyOffset*2) ,sky.width,(sky.height));
+            bgcontext.drawImage(sky, 0, (sky.height*2 - skyOffset*2) ,sky.width*2,(sky.height));
         }
-        bgcontext.drawImage(sky, 0, (sky.height - skyOffset*2),sky.width,(sky.height));
+        bgcontext.drawImage(sky, 0, (sky.height - skyOffset*2),sky.width*2,(sky.height));
         if(t>0){
-            bgcontext.drawImage(sky, 0, 0,sky.width,(sky.height - skyOffset)*2);
+            bgcontext.drawImage(sky, 0, 0,sky.width*2,(sky.height - skyOffset)*2);
         }else{
-            bgcontext.drawImage(sky, 0, (sky.height - skyOffset*2),sky.width,(sky.height));
+            bgcontext.drawImage(sky, 0, (sky.height - skyOffset*2),sky.width*2,(sky.height));
         }
         bgcontext.restore();
         if(mouseInX > shipX){
@@ -161,10 +165,6 @@
     }
 
     function animate(now) {
-        if(!sky.complete||!spaceShip.complete){
-            window.requestAnimationFrame(animate);
-            return;
-        }
         if (now === undefined) {
             now = +new Date;
         }
@@ -177,14 +177,16 @@
         window.requestAnimationFrame(animate);
     }
 
-    sky.src = 'images/taikong.jpg';
+    sky.src = 'images/taikong.png';
     spaceShip.src="images/space-ship.png";
-    context.fillText("loading.......",100,400,200);
-    canvas.width = window.innerWidth-10;
-    canvas.height = window.innerHeight-10;
-    bgcanvas.width =canvas.width;
-    bgcanvas.height =canvas.height;
-
+    window.onload = function (e) {
+        canvas.width = sky.width*2;
+        canvas.height = window.innerHeight;
+        bgcanvas.width =canvas.width;
+        bgcanvas.height =canvas.height;
+        console.log(window.height)
+        draw();
+    };
     var Point = function (x, y) {
         this.x = x;
         this.y = y;
