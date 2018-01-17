@@ -161,7 +161,7 @@
     }
 
     function animate(now) {
-        if(!sky.complete){
+        if(!sky.complete||!spaceShip.complete){
             window.requestAnimationFrame(animate);
             return;
         }
@@ -177,16 +177,14 @@
         window.requestAnimationFrame(animate);
     }
 
-    sky.src = 'images/taikong.png';
-    spaceShip.src="images/space-ship.jpg";
+    sky.src = 'images/taikong.jpg';
+    spaceShip.src="images/space-ship.png";
     context.fillText("loading.......",100,400,200);
-    sky.onload = function (e) {
-        canvas.width = sky.width;
-        canvas.height = window.innerHeight-10;
-        bgcanvas.width =canvas.width;
-        bgcanvas.height =canvas.height;
-        draw();
-    };
+    canvas.width = window.innerWidth-10;
+    canvas.height = window.innerHeight-10;
+    bgcanvas.width =canvas.width;
+    bgcanvas.height =canvas.height;
+
     var Point = function (x, y) {
         this.x = x;
         this.y = y;
