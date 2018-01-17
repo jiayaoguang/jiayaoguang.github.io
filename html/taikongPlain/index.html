@@ -27,12 +27,21 @@
 </head>
 
 <body>
-<div style="position:relative;width:500px;margin:0 auto;">
-<canvas id='canvas' width='200' height='800'>
-    Canvas not supported
-</canvas>
+<div align="center">
+    <canvas id='canvas' width='400' height='800'>
+        Canvas not supported
+    </canvas>
 </div>
 <script type="text/javascript">
+
+    window.addEventListener("resize", resizeCanvas, false);
+
+    function resizeCanvas(event) {
+        // event.preventDefault();
+        // w = canvas.width = window.innerWidth;
+        // h = canvas.height = window.innerHeight;
+    }
+
 
     var  SKY_VELOCITY = 8;
     var canvas = document.getElementById('canvas'),
@@ -166,11 +175,13 @@
 
     sky.src = 'images/taikong.png';
     spaceShip.src="images/space-ship.png";
-    window.onload = function (e) {
+    context.fillText("loading",100,400,100);
+    sky.onload = function (e) {
         canvas.width = sky.width;
-        canvas.height = sky.height - 150;
+        canvas.height = window.innerHeight-10;
         bgcanvas.width =canvas.width;
         bgcanvas.height =canvas.height;
+        console.log(window.height)
         draw();
     };
     var Point = function (x, y) {
