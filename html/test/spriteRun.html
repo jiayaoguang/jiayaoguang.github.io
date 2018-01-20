@@ -99,9 +99,9 @@
 
     function animate(time) {
         context.clearRect(0,0,canvas.width,canvas.height);
-        drawBackground();
+        //drawBackground();
 
-        context.drawImage(spritesheet, 0, 0);
+       // context.drawImage(spritesheet, 0, 0);
 
         sprite.update(context, time);
         sprite.paint(context);

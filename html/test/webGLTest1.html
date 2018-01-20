@@ -1,0 +1,131 @@
+<html>
+<head>
+    <title>webgl-lesson2</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <script id="shader-vs" > //顶点着色器vertexShader，处理顶点
+    attribute vec3 v3Position;
+    void main(void)
+    {
+        gl_Position = vec4(v3Position,1.0);
+    }
+    </script>
+
+    <script id="shader-fs" >//片段着色器fragmentShader，填充颜色
+    void main(void)
+    {
+        gl_FragColor = vec4(1.0,1.0,1.0,1.0);
+    }//两段shader代码都在显卡在执行
+    </script>
+    <script type="text/javascript">
+
+        function getShaderSource(scritptID)
+        {
+            var shaderScript = document.getElementById(scritptID);
+            if(shaderScript == null) return "";
+
+            var sourceCode = "";
+            var child = shaderScript.firstChild;
+            while(child)
+            {
+                if(child.nodeType == child.TEXT_NODE) sourceCode+=child.textContent;
+                child = child.nextSibling;
+            }
+            return sourceCode;
+        }
+
+        var webgl = null;
+        var vertexShaderObject = null;
+        var fragmentShaderObject = null;
+        var programObject = null;
+        var triangleBuffer = null;
+        var v3PositionIndex = 0;
+
+        function Init()
+        {
+            var canvas = document.getElementById("myCanvas");
+            webgl = canvas.getContext("webgl");
+            webgl.viewport(0,0,canvas.clientWidth,canvas.clientHeight);
+
+
+            vertexShaderObject = webgl.createShader(webgl.VERTEX_SHADER);//创建一个空的vertexShader对象，里面什么也没有
+            fragmentShaderObject = webgl.createShader(webgl.FRAGMENT_SHADER);//同理创建一个空的fragmentShader对象
+
+            webgl.shaderSource(vertexShaderObject,getShaderSource("shader-vs"));//相当于给vertexShader赋值，使其指向shader-vs里面的代码字符串
+            webgl.shaderSource(fragmentShaderObject,getShaderSource("shader-fs"));//相当于给fragmentShader赋值，使其指向shader-fs里面的代码字<span style="white-space:pre">                                                </span>符串
+
+            //编译两段代码，使其形成能在显卡执行的二进制代码
+            webgl.compileShader(vertexShaderObject);
+            webgl.compileShader(fragmentShaderObject);
+
+            //检测编译错误
+            if(!webgl.getShaderParameter(vertexShaderObject,webgl.COMPILE_STATUS))
+            {
+                alert("error:vertexShaderObject");
+                return;
+            }
+            if(!webgl.getShaderParameter(fragmentShaderObject,webgl.COMPILE_STATUS))
+            {
+                alert("error:fragmentShaderObject");
+                return;
+            }
+
+
+            programObject = webgl.createProgram();//创建一个程序，相当于创建一个空的exe文件，前面的shader相当于两个库文件
+
+            //将exe文件与库文件关联在一起
+            webgl.attachShader(programObject,vertexShaderObject);
+            webgl.attachShader(programObject,fragmentShaderObject);
+
+            webgl.linkProgram(programObject);//链接，形成一个能显卡上执行在可执行程序，通过programObject句柄关联
+
+            //检测链接错误
+            if(!webgl.getProgramParameter(programObject,webgl.LINK_STATUS))
+            {
+                alert("error:programObject");
+                return;
+            }
+
+
+            webgl.useProgram(programObject);//使用刚刚创建好的可执行程序,使用一个程序需要输入输出
+
+
+            webgl.bindAttribLocation(programObject,v3PositionIndex,"v3Position");//一个程序都有输入输出，输入就是shader-vs里面的v3Position变量<span style="white-space:pre">                                          </span>      ，这里通过v3PositionIndex与v3Position绑定，v3PositionIndex相<span style="white-space:pre">                                           </span>      当于一个输入入口
+
+            var jsArrayData =
+                [
+                    0.0,1.0,0.0, //上顶点
+                    -1.0,-1.0,0.0,//左顶点
+                    1.0,-1.0,0.0 //右顶点
+                ];
+
+            triangleBuffer = webgl.createBuffer();//在显卡上创建一个缓冲区
+            webgl.bindBuffer(webgl.ARRAY_BUFFER,triangleBuffer);//申明缓存区的存储类型为ARRAY_BUFFER
+            webgl.bufferData(webgl.ARRAY_BUFFER,new Float32Array(jsArrayData),webgl.STATIC_DRAW);//给缓存区赋值
+
+
+
+            webgl.clearColor(0.0,0.0,0.0,1.0);
+            webgl.clear(webgl.COLOR_BUFFER_BIT);
+
+
+            webgl.bindBuffer(webgl.ARRAY_BUFFER,triangleBuffer);//使用缓冲区
+            webgl.enableVertexAttribArray(v3PositionIndex);//启用v3PositionIndex
+            webgl.vertexAttribPointer(v3PositionIndex,
+                3,
+                webgl.FLOAT,
+                false,
+                0,
+                0);//给v3PositionIndex传值
+            webgl.drawArrays(webgl.TRIANGLES,
+                0,
+                3);//绘制
+        }
+
+    </script>
+</head>
+<body onload="Init()">
+<canvas id="myCanvas" style="border:1px solid red;" width="600" height="600"></canvas>
+
+</body>
+</html>

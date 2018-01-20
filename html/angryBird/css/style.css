@@ -1,0 +1,75 @@
+body {
+    background: #dddddd;
+}
+
+
+
+#gamecontainer{
+    width: 640px;
+    height: 480px;
+    background: url("../images/bg.jpg") ;
+    border: 1px solid black;
+}
+
+.gamelayer{
+    width: 640px;
+    height: 480px;
+    position: absolute;
+    display: none;
+}
+#gamestartscreen{
+    padding-top: 250px;
+    text-align: center;
+}
+
+#gamestartscreen img{
+    margin: 10px;
+    cursor: pointer;
+}
+
+#levelselectscreen{
+    padding-top: 150px;
+    padding-left: 150px;
+}
+
+#levelselectscreen input{
+    margin: 20px;
+    cursor: pointer;
+    /*background: url(../images/button.png) no-repeat;*/
+    color: yellow;
+    font-size: 20px;
+    width: 64px;
+    height: 64px;
+    border: 0;
+}
+/* 加载画面 */
+#loadingscreen{
+    background: rgba(100,100,100,0.3);
+}
+#loadingMessage{
+    margin-top: 400px;
+    text-align: center;
+    height: 48px;
+    color:#ffffff;
+    /*background: url("../images/loading.gif") no-repeat center;*/
+    font: 12px Arial;
+}
+/*计分板*/
+#scorescreen{
+    height: 60px;
+    font:32px Comic Sans MS;
+    text-shadow: 0 0 2px #000000;
+    color: #ffffff;
+}
+#scorescreen img{
+    opacity: 0.6;
+    top:10px;
+    position: relative;
+    padding-left: 10px;
+    cursor: pointer;
+}
+#scorescreen #score{
+    position: absolute;
+    top:5px;
+    right:20px;
+}

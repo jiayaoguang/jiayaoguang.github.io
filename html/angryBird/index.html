@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <title>Scrolling Backgrounds</title>
+    <meta http-equiv="Content-Type" content="text/html;">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta charset="utf-8">
+    <meta name="description" content="game for iPhone">
+    <meta name="keywords" content="iPhone,Androig,iPad,game,html5 game,sports,boxing,boxing game,action game,3d,punch,Flash,Flash for iPhone,html5,iPod touch,iPad">
+    <meta name="viewport" id="viewport" content="width = device-width, initial-scale = 1, minimum-scale = 1, maximum-scale = 1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta  http-equiv="expires" content="0">
+
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/game.js"></script>
+</head>
+
+<body>
+
+    <div id="gamecontainer">
+        <canvas id="gamecanvas" width="640" height="480" class="gamelayer">not support</canvas>
+
+        <div id="scorescreen">
+            <img id="togglemusic" src="images/sound.png">
+            <img src="images/prev.png">
+            <span id="score"> score:0 </span>
+        </div>
+
+        <div id="gamestartscreen" class="gamelayer">
+            <img  src="images/play.png" alt="play game" onclick="game.showLevelScreen()"><br/>
+            <img src="images/setting.png" alt="setting">
+        </div>
+
+        <div id="levelselectscreen" class="gamelayer">
+        </div>
+
+        <div id="loadingscreen" class="gamelayer">
+            <div id="loadingmessage" >
+            </div>
+        </div>
+
+        <div id="endingscreen" class="gamelayer">
+            <div>
+                <p id="endingmessage"> The Level Is Over Message </p>
+                <p id="playcurrentlevel"> <img src="images/prev.png"> replay Current level</p>
+                <p id="playnextlevel"> <img src="images/next.png"> replay next level</p>
+                <p id="showlevelscreen"><img src="images/return.png"> return tolevel screen</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
