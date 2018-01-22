@@ -132,7 +132,7 @@ var game = {
 
         //利用视差滚动绘制背景
         game.context.drawImage(game.currentLevel.backgroundImage,game.offsetLeft/4,0,640,480,0,0,640,480);
-        game.context.drawImage(game.currentLevel.foregroundImage,game.offsetLeft/4,0,640,480,0,0,640,480);
+        game.context.drawImage(game.currentLevel.foregroundImage,game.offsetLeft/8,0,640,480,0,0,640,480);
 
         //绘制弹弓
         game.context.drawImage(game.slingshoutImage,game.slingshoutX - game.offsetLeft,game.slingshoutY);
@@ -163,12 +163,12 @@ var levels = {
         var html = "";
         for(var i = 0;i <levels.data.length;i++){
             var level = levels.data[i];
-            html += ('<input class="test" type="button" value="' + (i+1)+'">');
+            html += ('<input class="levelbt" type="button" value="' + (i+1)+'">');
         }
         $('#levelselectscreen').html(html);
 
         //单击按钮时加载关卡
-        $('#levelselectscreen input').click(function () {
+        $('.levelbt').click(function () {
                 levels.load(this.value-1);
                 $('#levelselectscreen').hide();
         });
