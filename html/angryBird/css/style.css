@@ -51,7 +51,7 @@ body {
     text-align: center;
     height: 48px;
     color:#ffffff;
-    /*background: url("../images/loading.gif") no-repeat center;*/
+    background: url("../images/loading.gif") no-repeat center;
     font: 12px Arial;
 }
 /*计分板*/
