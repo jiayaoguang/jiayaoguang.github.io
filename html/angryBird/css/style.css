@@ -45,12 +45,13 @@ body {
 /* 加载画面 */
 #loadingscreen{
     background: rgba(100,100,100,0.3);
+    height: 420px;
 }
 #loadingMessage{
-    margin-top: 400px;
+    margin-top: 300px;
     text-align: center;
     height: 48px;
-    color:#ffffff;
+    color: #050405;
     background: url("../images/loading.gif") no-repeat center;
     font: 12px Arial;
 }
